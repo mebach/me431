@@ -1,42 +1,43 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import sys
-sys.path.append('..')  # add parent directory
+sys.path.append('..')
 import VTOLParam as P
-from signalGenerator import signalGenerator
-from VTOLAnimation import VTOLAnimation
-from dataPlotter import dataPlotter
+from hw1.signalGenerator import signalGenerator
+from hw1.VTOLAnimation import VTOLAnimation
+from hw1.dataPlotter import dataPlotter
+from VTOLDynamics import VTOLDynamics
 
-
-# instantiate reference input classes
+# instantiate VTOL, controller, and reference classes
+VTOL = VTOLDynamics()
 reference = signalGenerator(amplitude=0.5, frequency=0.1)
-thetaRef = signalGenerator(amplitude=2.0*np.pi, frequency=0.1)
-phiRef = signalGenerator(amplitude=0.5, frequency=0.1)
-tauRef = signalGenerator(amplitude=5, frequency=.5)
+f_l = signalGenerator(amplitude=0.1, frequency=0.1)
+f_r = signalGenerator(amplitude=0.1, frequency=0.1)
 
 # instantiate the simulation plots and animation
 dataPlot = dataPlotter()
 animation = VTOLAnimation()
 
-t = P.t_start  # time starts at t_start
-while t < P.t_end:  # main simulation loop
+t = P.t_start  # times starts at t_start
+while t < P.t_end:
 
-    # set variables
-    r = reference.square(t)
-    theta = thetaRef.sin(t)
-    phi = phiRef.sin(t)
-    tau = tauRef.sawtooth(t)
+    # Propagate dynamics in between plot samples
+    t_next_plot = t + P.t_plot
 
-    # update animation
-    state = np.array([[theta], [phi], [0.0], [0.0]])
-    animation.update(state)
-    dataPlot.update(t, r, state, tau) # t,states, zref, href, force, torque
+    # updates control and dynamics at faster simulation rate
+    while t < t_next_plot:
+        r = reference.square(t)
+        u = np.array([[f_l.sin(t)], [f_r.sin(t)]])
+        y = VTOL.update(u)
+        t = t + P.Ts
 
-    # advance time by t_plot
-    t = t + P.t_plot
-    plt.pause(0.1)
+    animation.update(VTOL.stat)
+    dataPlot.update(t, r, VTOL.state, u)
 
-# Keeps the program from closing until the user presses a button.
+    # the pause causes the figure to be displayed during the simulation
+    plt.pause(0.0001)
+
+# keeps the program from closing until the user presses a button
 print('Press key to close')
 plt.waitforbuttonpress()
 plt.close()

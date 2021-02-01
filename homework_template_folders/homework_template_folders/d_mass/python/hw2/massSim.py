@@ -1,16 +1,17 @@
 import matplotlib.pyplot as plt
-import numpy as np
 import sys
-sys.path.append('..')  # add parent directory
+sys.path.append('..')
 import massParam as P
-from signalGenerator import signalGenerator
-from massAnimation import massAnimation
-from dataPlotter import dataPlotter
+from hw1.signalGenerator import signalGenerator
+from hw1.massAnimation import massAnimation
+from hw1.dataPlotter import dataPlotter
+from massDynamics import massDynamics
 
-# instantiate reference input classes
-reference = signalGenerator(amplitude=1.0, frequency=0.2, y_offset=0.1)
-thetaRef = signalGenerator(amplitude=2.0*np.pi, frequency=0.1)
-tauRef = signalGenerator(amplitude=5, frequency=.5)
+
+# instantiate mass, controller, and reference classes
+mass = massDynamics()
+reference = signalGenerator(amplitude=0.01, frequency=0.02)
+force = signalGenerator(amplitude=10.0, frequency=0.5)
 
 # instantiate the simulation plots and animation
 dataPlot = dataPlotter()
@@ -18,21 +19,26 @@ animation = massAnimation()
 
 t = P.t_start  # time starts at t_start
 while t < P.t_end:  # main simulation loop
-    # set variables
-    z = reference.sin(t)
-    ctrl = 0.0
+    # Propagate dynamics in between plot samples
+    t_next_plot = t + P.t_plot
 
-    # update animation
+    # updates control and dynamics at faster simulation rate
+    while t < t_next_plot:
 
-    state = np.array([[z], [0.0]])
-    animation.update(state)
-    dataPlot.update(t, z, state, ctrl)
+        # get referenced inputs from signal generators
+        r = reference.square(t)
+        u = force.sin(t)
+        y = mass.update(u)  # propagate the dynamics
+        t = t + P.Ts  # advance time by Ts
+    # update animation and data plots
+    animation.update(mass.state)
+    dataPlot.update(t, r, mass.state, u)
 
-    #plt.show()
-    t = t + P.t_plot  # advance time by t_plot
-    plt.pause(0.1)
+    # the pause causes the figure to be displayed during the simulation
+    plt.pause(0.0001)
 
-# Keeps the program from closing until the user presses a button.
+# Keeps the program from closing until the user presses a button
 print('Press key to close')
 plt.waitforbuttonpress()
 plt.close()
+

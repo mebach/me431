@@ -1,18 +1,16 @@
 import matplotlib.pyplot as plt
-import numpy as np
 import sys
-sys.path.append('..')  # add parent directory
+sys.path.append('..')
 import ballbeamParam as P
-from signalGenerator import signalGenerator
-from ballbeamAnimation import ballbeamAnimation
-from dataPlotter import dataPlotter
+from hw1.signalGenerator import signalGenerator
+from hw1.ballbeamAnimation import ballbeamAnimation
+from hw1.dataPlotter import dataPlotter
+from ballbeamDynamics import ballbeamDynamics
 
-
-# instantiate reference input classes
-reference = signalGenerator(amplitude=1.0, frequency=0.05, y_offset=0.1)
-zRef = signalGenerator(amplitude=0.25, frequency=0.05, y_offset=0.25)
-thetaRef = signalGenerator(amplitude=.1*np.pi, frequency=.025)
-fRef = signalGenerator(amplitude=5, frequency=.5)
+# instantiate ball beam, controller, and reference classes
+ballbeam = ballbeamDynamics(alpha=0.0)
+reference = signalGenerator(amplitude=0.5, frequency=0.02)
+force = signalGenerator(amplitude=8.0, frequency=0.8)
 
 # instantiate the simulation plots and animation
 dataPlot = dataPlotter()
@@ -20,20 +18,23 @@ animation = ballbeamAnimation()
 
 t = P.t_start  # time starts at t_start
 while t < P.t_end:  # main simulation loop
-    # set variables
-    r = reference.sin(t)
-    z = zRef.sin(t)
-    theta = thetaRef.sin(t)
-    f = fRef.sin(t)
-    # update animation
-    state = np.array([[z], [theta], [0.0], [0.0]])
-    animation.update(state)
-    dataPlot.update(t, r, state, f)
 
-    t = t + P.t_plot  # advance time by t_plot
-    plt.pause(0.1)
+    # Propagate dynamics at rate Ts
+    t_next_plot = t + P.t_plot
+    while t < t_next_plot:
+        r = reference.square(t)
+        u = force.sin(t)
+        y = ballbeam.update(u)  # propagate the dynamics
+        t = t + P.Ts  # advance time by Ts
 
-# Keeps the program from closing until the user presses a button.
+    # update animation and data plots at rate t_plot
+    animation.update(ballbeam.state)
+    dataPlot.update(t, r, ballbeam.state, u)
+
+    # the pause causes figure to be displayed during simulation
+    plt.pause(0.0001)
+
+# Keeps the program from closing until the user presses a button
 print('Press key to close')
 plt.waitforbuttonpress()
 plt.close()

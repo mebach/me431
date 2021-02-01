@@ -12,7 +12,7 @@ g = 9.81  # gravity at sea level, m/s^2
 radius = 0.05  # radius of ball
 
 # Initial Conditions
-z0 = 0.5 # initial ball position,m
+z0 = 0.25  # initial ball position,m
 theta0 = 0.0*np.pi/180  # initial beam angle,rads
 zdot0 = 0.0  # initial speed of ball along beam, m/s
 thetadot0 = 0.0  # initial angular speed of theh beam,rads/s
@@ -20,11 +20,11 @@ thetadot0 = 0.0  # initial angular speed of theh beam,rads/s
 # Simulation Parameters
 t_start = 0.0  # Start time of simulation
 t_end = 50.0  # End time of simulation
-Ts = 0.5  # sample time for simulation
-t_plot = 0.5  # the plotting and animation is updated at this rate
+Ts = 0.01  # sample time for simulation
+t_plot = 0.05  # the plotting and animation is updated at this rate
 
 # saturation limits
-Fmax = 50.0  # Max Force, N
+F_max = 50.0  # Max Force, N
 
 # dirty derivative parameters
 # sigma =   # cutoff freq for dirty derivative
