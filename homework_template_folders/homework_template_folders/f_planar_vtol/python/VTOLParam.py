@@ -25,11 +25,11 @@ target0 = 0.0
 # Simulation Parameters
 t_start = 0.0 # Start time of simulation
 t_end = 50.0  # End time of simulation
-Ts = 0.5  # sample time for simulation
-t_plot = 0.5 # the plotting and animation is updated at this rate
+Ts = 0.01  # sample time for simulation
+t_plot = 0.05 # the plotting and animation is updated at this rate
 
 # saturation limits
-f_max = 0.0  # Max Force, N
+f_max = 1000.0  # Max Force, N
 
 # dirty derivative parameters
 # sigma =   # cutoff freq for dirty derivative

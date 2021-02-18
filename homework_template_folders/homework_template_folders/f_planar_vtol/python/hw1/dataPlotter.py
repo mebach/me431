@@ -28,8 +28,8 @@ class dataPlotter:
         self.handle.append(myPlot(self.ax[0], ylabel='z(m)', title='Ball on Beam Data'))
         self.handle.append(myPlot(self.ax[1], ylabel='h(m)'))
         self.handle.append(myPlot(self.ax[2], ylabel='theta(deg)'))
-        self.handle.append(myPlot(self.ax[3], ylabel='force(N)'))
-        self.handle.append(myPlot(self.ax[4], xlabel='t(s)', ylabel='torque(Nm)'))
+        self.handle.append(myPlot(self.ax[3], ylabel='force left (N)'))
+        self.handle.append(myPlot(self.ax[4], xlabel='t(s)', ylabel='force right(Nm)'))
 
     def update(self, t, states, z_ref, h_ref, force, torque):
         '''

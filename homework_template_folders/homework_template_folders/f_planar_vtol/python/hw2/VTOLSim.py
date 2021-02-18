@@ -11,8 +11,8 @@ from VTOLDynamics import VTOLDynamics
 # instantiate VTOL, controller, and reference classes
 VTOL = VTOLDynamics()
 reference = signalGenerator(amplitude=0.5, frequency=0.1)
-f_l = signalGenerator(amplitude=0.1, frequency=0.1)
-f_r = signalGenerator(amplitude=0.1, frequency=0.1)
+f_l = signalGenerator(amplitude=50.0, frequency=0.5)
+f_r = signalGenerator(amplitude=50.0, frequency=0.5)
 
 # instantiate the simulation plots and animation
 dataPlot = dataPlotter()
@@ -31,8 +31,8 @@ while t < P.t_end:
         y = VTOL.update(u)
         t = t + P.Ts
 
-    animation.update(VTOL.stat)
-    dataPlot.update(t, r, VTOL.state, u)
+    animation.update(VTOL.state, 1.0)
+    dataPlot.update(t, VTOL.state, 0.0, 0.0, u[0], u[1])
 
     # the pause causes the figure to be displayed during the simulation
     plt.pause(0.0001)

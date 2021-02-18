@@ -15,7 +15,7 @@ radius = 0.05  # radius of ball
 z0 = 0.25  # initial ball position,m
 theta0 = 0.0*np.pi/180  # initial beam angle,rads
 zdot0 = 0.0  # initial speed of ball along beam, m/s
-thetadot0 = 0.0  # initial angular speed of theh beam,rads/s
+thetadot0 = 0.0  # initial angular speed of the beam,rads/s
 
 # Simulation Parameters
 t_start = 0.0  # Start time of simulation
