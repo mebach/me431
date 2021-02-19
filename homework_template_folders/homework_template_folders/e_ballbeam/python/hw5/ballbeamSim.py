@@ -19,7 +19,7 @@ dataPlot = dataPlotter()
 animation = ballbeamAnimation()
 
 t = P.t_start  # time starts at t_start
-y = ballbeam.h()
+y = ballbeam.h()  # output at the start of the simulation
 
 while t < P.t_end:  # main simulation loop
     # Propagate dynamics at rate Ts

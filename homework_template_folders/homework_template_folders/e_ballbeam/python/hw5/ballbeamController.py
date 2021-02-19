@@ -1,4 +1,7 @@
 import numpy as np
+import sys
+sys.path.append('..')
+import ballbeamParam as P0
 import ballbeamParamHW5 as P
 
 
@@ -16,6 +19,10 @@ class ballbeamController:
         zdot = state.item(2)
         thetadot = state.item(3)
 
+        z_e = P0.length / 2.0
+        F_fl = P0.g*(P0.m1 * z / P0.length + P0.m2 / 2.0)
+        theta_e = 0.0
+
         # the reference z comes from the outer loop PD control
         theta_r = self.kp_z * (z_r - z) - self.kd_z * zdot
 
@@ -23,7 +30,8 @@ class ballbeamController:
         # theta_r = self.filter.update(tmp)
 
         # the force applied to the beam from the inner loop control
-        F = self.kp_th * (theta_r - theta) - self.kd_th * thetadot
+        F_tilde = self.kp_th * (theta_r - theta) - self.kd_th * thetadot
+        F = F_tilde + F_fl
 
         return F
 
