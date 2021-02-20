@@ -18,11 +18,11 @@ beta = (2 * sigma - Ts) / (2 * sigma + Ts)  # dirty derivative gain
 # tuning parameters
 tr_th = 1.0          # Rise time for inner loop (theta)
 zeta_th = 0.707       # Damping Coefficient for inner loop (theta)
-M = 10.0              # Time scale separation between inner and outer loop
+M = 3.0             # Time scale separation between inner and outer loop
 zeta_z = 0.707        # Damping Coefficient fop outer loop (z)
 
 # saturation limits
-F_max = 15            		  # Max Force, N
+F_max = 15.0            		  # Max Force, N
 error_max = 1        		  # Max step size,m
 theta_max = 30.0*np.pi/180.0  # Max theta, rads
 

@@ -1,25 +1,31 @@
-import VTOLParamHW8 as P
+import numpy as np
+import VTOLParamHW5 as P
 
-class satelliteController:
+
+class VTOLController:
     def __init__(self):
-        self.kp_phi = P.kp_phi
-        self.kd_phi = P.kd_phi
+        self.kp_h = P.kp_h
+        self.kd_h = P.kd_h
         self.kp_th = P.kp_th
         self.kd_th = P.kd_th
+        self.kp_z = P.kp_z
+        self.kd_z = P.kd_z
 
-    def update(self, phi_r, state):
+    def update(self, reference, state):
+        z_r = reference.item(0)
+        h_r = reference.item(1)
 
-        theta = state.item(0)
-        phi = state.item(1)
-        thetadot = state.item(2)
-        phidot = state.item(3)
+        z = state.item(0)
+        h = state.item(1)
+        theta = state.item(2)
+        zdot = state.item(3)
+        hdot = state.item(4)
+        thetadot = state.item(5)
 
-        # outer loop: outputs the reference angle for theta
-        theta_r = self.kp_phi * (phi_r - phi) \
-                  - self.kd_phi * phidot
+        F_tilde = self.kp_h * (h_r - h) - self.kd_h * hdot
+        F = F_tilde + P.Fe
 
-        # inner loop: outputs the torque applied to the base
-        tau = self.kp_th * (theta_r - theta) \
-              - self.kd_th * thetadot
+        theta_r = self.kp_z * (z_r - z) - self.kd_z * zdot
+        tau = self.kp_th * (theta_r - theta) - self.kd_th * thetadot
 
-        return tau
+        return np.array([[F], [tau]])

@@ -1,5 +1,7 @@
 import numpy as np
 import random
+import sys
+sys.path.append('..')
 import VTOLParam as P
 
 class VTOLDynamics:
@@ -57,8 +59,11 @@ class VTOLDynamics:
         zdot = state.item(3)
         hdot = state.item(4)
         thetadot = state.item(5)
-        fl = u.item(0)
-        fr = u.item(1)
+        F = u.item(0)
+        tau = u.item(1)
+        fr = 0.5 * F + (1/(2*P.d)) * tau
+        fl = 0.5 * F - (1/(2*P.d)) * tau
+
         # # The equations of motion.
         # M = np.array([[self.Js, 0],
         #                [0, self.Jp]])
