@@ -14,13 +14,14 @@ mass = massDynamics()
 controller = massController()
 reference = signalGenerator(amplitude=1.0, frequency=0.02)
 disturbance = signalGenerator(amplitude=0.0)
-force = signalGenerator(amplitude=10.0, frequency=0.5)
 
 # instantiate the simulation plots and animation
 dataPlot = dataPlotter()
 animation = massAnimation()
 
 t = P.t_start  # time starts at t_start
+y = mass.h()
+
 while t < P.t_end:  # main simulation loop
     # Propagate dynamics in between plot samples
     t_next_plot = t + P.t_plot
@@ -33,7 +34,7 @@ while t < P.t_end:  # main simulation loop
         d = disturbance.step(t)
         n = 0.0  # noise.random(t)
         x = mass.state
-        u = controller.update(r, x)  # update controller
+        u = controller.update(r, y + n)  # update controller
         y = mass.update(u + d)  # propagate the dynamics
         t = t + P.Ts  # advance time by Ts
 
