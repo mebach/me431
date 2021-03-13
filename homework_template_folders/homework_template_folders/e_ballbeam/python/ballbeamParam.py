@@ -28,7 +28,7 @@ F_max = 15.0  # Max Force, N
 
 # dirty derivative parameters
 # sigma =   # cutoff freq for dirty derivative
-# beta =  # dirty derivative gain
+beta = 0.05  # dirty derivative gain
 
 # equilibrium force when ball is in center of beam
 # ze =

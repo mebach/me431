@@ -12,7 +12,7 @@ F_max = P.F_max  # limit on control signal
 # tuning parameters
 tr = 1.6395
 zeta = 0.707
-ki = 0.3  # integrator gain
+ki = 0.25  # integrator gain
 
 # desired natural frequency
 wn = 2.2/tr

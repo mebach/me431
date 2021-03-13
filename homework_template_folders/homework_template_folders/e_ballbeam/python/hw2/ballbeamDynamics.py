@@ -5,7 +5,7 @@ import ballbeamParam as P
 
 
 class ballbeamDynamics:
-    def __init__(self, alpha=0.0):
+    def __init__(self, alpha=0.2):
         # Initial state conditions
         self.state = np.array([
             [P.z0],  # z initial position
@@ -18,13 +18,13 @@ class ballbeamDynamics:
         self.Ts = P.Ts
 
         # Mass of the pendulum, kg
-        self.m1 = P.m1 # * (1. + alpha * (2. * np.random.rand() - 1.))
+        self.m1 = P.m1 * (1. + alpha * (2. * np.random.rand() - 1.))
 
         # Mass of the cart, kg
-        self.m2 = P.m2 # * (1. + alpha * (2. * np.random.rand() - 1.))
+        self.m2 = P.m2 * (1. + alpha * (2. * np.random.rand() - 1.))
 
         # Length of the rod, m
-        self.length = P.length # * (1. + alpha * (2. * np.random.rand() - 1.))
+        self.length = P.length * (1. + alpha * (2. * np.random.rand() - 1.))
 
         # gravity constant is well known, don't change.
         self.g = P.g

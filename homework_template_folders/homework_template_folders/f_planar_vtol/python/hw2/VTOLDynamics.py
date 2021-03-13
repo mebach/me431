@@ -5,7 +5,7 @@ sys.path.append('..')
 import VTOLParam as P
 
 class VTOLDynamics:
-    def __init__(self, alpha=0.0):
+    def __init__(self, alpha=0.2):
         # Initial state conditions
         self.state = np.array([
             [P.z0],  # initial base angle
@@ -20,19 +20,19 @@ class VTOLDynamics:
         self.Ts = P.Ts
 
         # mass of the center
-        self.mc = P.mc
+        self.mc = P.mc * (1. + alpha * (2. * np.random.rand() - 1.))
 
         # mass of the right motor (both motors are the same)
         self.mr = P.mr
 
         # inertia of the center piece
-        self.Jc = P.Jc
+        self.Jc = P.Jc * (1. + alpha * (2. * np.random.rand() - 1.))
 
         # distance of wingspan
-        self.d = P.d
+        self.d = P.d * (1. + alpha * (2. * np.random.rand() - 1.))
 
         # friction coefficient
-        self.mu = P.mu
+        self.mu = P.mu * (1. + alpha * (2. * np.random.rand() - 1.))
 
         # gravitational constant
         self.g = P.g
