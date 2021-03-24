@@ -12,7 +12,7 @@ g = 9.81  # gravity at sea level, m/s^2
 radius = 0.05  # radius of ball
 
 # Initial Conditions
-z0 = 0.0  # initial ball position,m
+z0 = 0.25  # initial ball position,m
 theta0 = 0.0*np.pi/180  # initial beam angle,rads
 zdot0 = 0.0  # initial speed of ball along beam, m/s
 thetadot0 = 0.0  # initial angular speed of the beam,rads/s
