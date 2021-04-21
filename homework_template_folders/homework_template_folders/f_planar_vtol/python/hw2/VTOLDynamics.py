@@ -37,6 +37,9 @@ class VTOLDynamics:
         # gravitational constant
         self.g = P.g
 
+        # disturbance force due to wind
+        self.F_wind = 0.1
+
         # Max motor forces
         self.f_max = P.f_max
 
@@ -72,7 +75,7 @@ class VTOLDynamics:
         #               [-self.b*(phidot-thetadot)-self.k*(phi-theta)
         #               ]])
         # tmp = np.linalg.inv(M) @ C
-        zddot = (1/(self.mc + 2*self.mr)) * (-(fr + fl)*np.sin(theta) - self.mu*zdot)
+        zddot = (1/(self.mc + 2*self.mr)) * (-(fr + fl)*np.sin(theta) + self.F_wind - self.mu*zdot)
         hddot = (1/(self.mc + 2*self.mr)) * ((fr + fl)*np.cos(theta) - self.mc*self.g - 2*self.mr*self.g)
         thetaddot = (1/(self.Jc + 2*self.mr*self.d**2)) * ((fr - fl)*self.d)
 

@@ -15,6 +15,7 @@ VTOL = VTOLDynamics()
 controller = VTOLController()
 z_reference = signalGenerator(amplitude=2.5, frequency=0.1, y_offset=3.0)
 h_reference = signalGenerator(amplitude=3.0, frequency=0.1, y_offset=5.0)
+disturbance = signalGenerator(amplitude=0.1)
 f_l = signalGenerator(amplitude=50.0, frequency=0.5)
 f_r = signalGenerator(amplitude=50.0, frequency=0.5)
 
@@ -35,7 +36,9 @@ while t < P.t_end:
         h_ref = h_reference.square(t)
         z_ref = z_reference.square(t)
         r = np.array([[z_ref], [h_ref]])
-        d = np.array([[0.0], [0.0]])
+        dfl = disturbance.step(t)
+        dfr = disturbance.step(t)
+        d = np.array([[dfl], [dfr]])
         n = 0.0  #noise.random(t)
         x = VTOL.state
         u = controller.update(r, x)

@@ -76,7 +76,7 @@ else:
     ki = K1.item(4)
 
 print('K: ', K)
-print('kr: ', ki)
+print('ki: ', ki)
 
 
 

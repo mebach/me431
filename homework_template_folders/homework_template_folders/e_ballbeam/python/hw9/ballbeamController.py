@@ -1,12 +1,17 @@
 import numpy as np
 import ballbeamParamHW9 as P
+import sys
+sys.path.append('..')
+import ballbeamParam as P0
 
 class ballbeamController:
     def __init__(self):
-        self.integrator = 0.0
+
         self.error_d1 = 0.0
         self.K = P.K  # state feedback gain
+        x = np.array([[P0.z0], [P0.theta0],[P0.zdot0], [P0.thetadot0]])
         self.ki = P.ki  # Input gain
+        self.integrator = self.K @ x / (-self.ki)
         self.limit = P.F_max  # Maxiumum force
         self.Ts = P.Ts  # sample rate of controller
 

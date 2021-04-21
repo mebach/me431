@@ -23,7 +23,7 @@ Ts = 0.01  # sample time for simulation
 t_plot = 0.05  # the plotting and animation is updated at this rate
 
 # dirty derivative parameters
-# sigma = 0.05 # cutoff freq for dirty derivative
+sigma = 0.05 # cutoff freq for dirty derivative
 beta = 0.05  # dirty derivative gain
 
 # saturation limits

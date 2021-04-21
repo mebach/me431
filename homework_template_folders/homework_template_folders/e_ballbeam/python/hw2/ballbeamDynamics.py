@@ -5,7 +5,7 @@ import ballbeamParam as P
 
 
 class ballbeamDynamics:
-    def __init__(self, alpha=0.2):
+    def __init__(self, alpha=0.0):
         # Initial state conditions
         self.state = np.array([
             [P.z0],  # z initial position
